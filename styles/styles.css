@@ -1,5 +1,24 @@
-title {
-  font-color: red;
+#login_container {
+  background-color: #707070;
+  padding: .5rem 1rem;
+  text-align: right;
+}
+
+#login_msg {
+  display: inline-block;
+  margin: 0 .5rem;
+}
+
+#navbar {
+  background-color: #707070;
+  height: 4rem;
+  border-radius: 30px;
+  margin: 2rem 1rem;
+}
+
+#nav_menu {
+  display: inline-block;
+  float: right;
 }
 h1{
   text-align:center;
