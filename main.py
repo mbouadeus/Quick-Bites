@@ -72,7 +72,8 @@ class DinnerHandler(webapp2.RequestHandler):
 
 class SettingsHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write('Settings Page')
+        settings_template = jinja_env.get_template('templates/settings.html')
+        self.response.write(settings_template.render())
 
 
 # class LoginHandler(webapp2.RequestHandler):
