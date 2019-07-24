@@ -29,21 +29,19 @@ def get_login_status():
 
 def get_coordinates(location):
     api_key = 'AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno'
-    url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + location.replace(' ', '+') + '&key=' + api_key
+    url = 'https://www.googleapis.com/geolocation/v1/geolocate?key=' + api_key
 
-    response = json.loads(urlfetch.fetch(url).content)
-    coordinates = response['results'][0]['geometry']['location']
+    response = json.loads(urlfetch.fetch(url, method="POST").content)
 
-    return [coordinates['lat'], coordinates['lng']]
+    return [response['location']['lat'], response['location']['lng']]
 
 def get_restaurants(coordinates):
-    return json.loads(urlfetch.fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + str(coordinates[0]) + ',' + str(coordinates[1]) + '&radius=500&type=restaurant&key=AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno').content)
+    return json.loads(urlfetch.fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + str(coordinates[0]) + ',' + str(coordinates[1]) + '&radius=2000&type=restaurant&key=AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno').content)
 
 def parse_restaurants(content):
-    print(content)
     restaurants = []
 
-    for res in content['candidates']:
+    for res in content['results']:
         restaurants.append(res['name'])
 
     return restaurants
