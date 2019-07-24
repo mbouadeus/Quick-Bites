@@ -1,0 +1,89 @@
+form {
+  text-align: center;
+}
+
+#login_container {
+  padding: .2rem 1rem;
+  text-align: right;
+}
+
+#login_msg {
+  display: inline-block;
+  margin: 0 .5rem;
+}
+
+#login_btn {
+  padding: .1rem .5rem;
+}
+
+.nav {
+  margin: 2rem 1rem;
+}
+
+#nav_list {
+  overflow: hidden;
+}
+#nav_menu {
+  display: inline-block;
+  float: right;
+}
+
+
+.nav ul {
+  display: flex;
+  list-style: none;
+  background-color: #444;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+.nav li {
+  font-family: 'Oswald', sans-serif;
+  flex-grow: 1;
+  font-size: 1.2em;
+  height: 50px;
+  line-height: 50px;
+  height: 40px;
+  width: 100%;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  transition: .3s background-color;
+}
+
+.nav a:hover {
+  background-color: #005f5f;
+}
+
+.nav a.active {
+  background-color: #eee;
+  color: #444;
+  cursor: default;
+}
+
+#res_results {
+
+}
+
+@media screen and (min-width: 600px) {
+  .nav li {
+    width: 120px;
+    border-bottom: none;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.4em;
+  }
+
+  /* Option 1 - Display Inline */
+  .nav li {
+    display: inline-block;
+    margin-right: -4px;
+  }
+
+h1{
+  text-align:center;
+}
