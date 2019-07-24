@@ -27,7 +27,20 @@ form {
   display: inline-block;
   float: right;
 }
-
+#Filter{
+  background-color: lightblue;
+  border-radius: 25px;
+  border: 3px solid;
+  padding: 20px;
+  /*padding-right: 180px;*/
+  padding-left: 160px;
+  /*padding-top: 40px;
+  padding-bottom: 40px; */
+  margin-bottom:50px;
+  margin-top:75px;
+  width:541px;
+  float: right;
+}
 
 .nav ul {
   display: flex;
