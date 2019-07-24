@@ -19,11 +19,17 @@
         <li><a href="#">Dinner</a></li>
       </ul>
     </div>
-    <div class="main_container">
+    <div class="px-lg-5 mx-0">
+      <div class="row mx-lg-n5">
+        <div class="col-8 py-3 px-lg-5 border bg-light">Custom column padding</div>
+        <div class="col-3 py-3 px-lg-5 border bg-light">Custom column padding</div>
+      </div>
+    </div>
+    <div class="row justify-content-between main_container">
       <div id="res_results" class="col bg-light">
         <h3> Restarants </h3>
         {% for restaurant in restaurants %}
-            <h5>{{ restaurant }}</h5>
+            <p>{{ restaurant }}</p>
         {% endfor %}
       </div>
       <div id="res_filter" class="col bg-light">col-4</div>
