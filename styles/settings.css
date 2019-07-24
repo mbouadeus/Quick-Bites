@@ -1,0 +1,29 @@
+form {
+  text-align: center;
+}
+
+#login_container {
+  padding: .2rem 1rem;
+  text-align: right;
+}
+
+#login_msg {
+  display: inline-block;
+  margin: 0 .5rem;
+}
+
+#login_btn {
+  padding: .1rem .5rem;
+}
+
+
+#wrapper {
+    margin-left:auto;
+    margin-right:auto;
+    padding-top: 400px;
+    width:850px;
+}
+
+#homeButton {
+  padding: .2rem 3rem;
+}
