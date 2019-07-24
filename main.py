@@ -9,7 +9,7 @@ jinja_env = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-def login_msg():
+def get_login_msg():
     if users.get_current_user():
         return 'Welcome, ' + users.get_current_user().nickname()
     else:
@@ -27,7 +27,7 @@ def get_login_status():
     else:
         return 'login'
 
-def get_coordinates(location):
+def get_coordinates():
     api_key = 'AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno'
     url = 'https://www.googleapis.com/geolocation/v1/geolocate?key=' + api_key
 
@@ -48,12 +48,14 @@ def parse_restaurants(content):
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        main_tamplate = jinja_env.get_template('templates/main.html')
-        self.response.write(main_tamplate.render({
-            'login_msg': login_msg(),
-            'login_url': get_login_url(),
-            'login_status': get_login_status()
+        content = get_restaurants(get_coordinates())
 
+        results_template = jinja_env.get_template('templates/main.html')
+        self.response.write(results_template.render({
+            'login_msg': get_login_msg(),
+            'login_url': get_login_url(),
+            'login_status': get_login_status(),
+            'restaurants': parse_restaurants(content)
         }))
 
 class BreakfastHandler(webapp2.RequestHandler):
@@ -71,24 +73,6 @@ class DinnerHandler(webapp2.RequestHandler):
 class SettingsHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Settings Page')
-
-class ResultsHandler(webapp2.RequestHandler):
-    def post(self):
-        location = self.request.get('location')
-        coordinates = get_coordinates(location)
-
-        content = get_restaurants(coordinates)
-
-        restaurants = parse_restaurants(content)
-
-        results_template = jinja_env.get_template('templates/results.html')
-        self.response.write(results_template.render({
-            'location': str(coordinates[0]) + ', ' + str(coordinates[1]),
-            'restaurants': restaurants
-        }))
-
-
-
 
 
 # class LoginHandler(webapp2.RequestHandler):
@@ -115,7 +99,6 @@ app = webapp2.WSGIApplication([
     ('/lunch', LunchHanlder),
     ('/dinner', DinnerHandler),
     ('/settings', SettingsHandler),
-    ('/results', ResultsHandler)
     # ('/login', LoginHandler),
     # ('/logout', LogoutHandler),
 
