@@ -7,8 +7,8 @@
   </head>
   <body>
     <div id="login_container">
-      <h5 id="login_msg">{{}}</h5>
-      <a id="login_btn" href="/login">login</a>
+      <h5 id="login_msg">{{login_msg}}</h5>
+      <a id="login_btn" href="{{login_url}}">{{login_status}}</a>
     </div>
     <nav id="navbar">
       <a href="#">Logo</a>
@@ -19,5 +19,11 @@
         <a href="#">Dinner</a>
       </div>
     </nav>
+
+    <form method="post" action="/results">
+      <label>Location</label>
+      <input type="textbox" name="location" placeholder="location" />
+      <input type="submit" value="search" />
+    </form>
   </body>
 </html>
