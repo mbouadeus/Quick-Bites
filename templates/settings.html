@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="../styles/normalize.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="../styles/settings.css" />
+    <link rel="stylesheet" href="/styles/settings.css" />
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
+
     <title>Setting</title>
   </head>
   <body>
@@ -20,11 +21,31 @@
 
 
   <!-- Username Button -->
-  <div id = "wrapper">
-    <button>Change Username</button>
+
+    <div>
+      <!-- <button id = "Username">Change Username</button> -->
+      <button id = "Username" type="button" class="btn btn-outline-primary">Change Username</button>
+    </div>
+
+    <!-- Other button -->
+
+    <div>
+      <button id = "Placeholder" type="button" class="btn btn-outline-warning">Placeholder</button>
+    </div>
+
+    <div>
+      <!-- <button id = "editPreferences">Edit Preferences</button> -->
+      <button id = "editPreferences" type="button" class="btn btn-outline-danger">Edit Preferences</button>
+    </div>
+
+    <!-- user name banner -->
+    <h2 id = "userBanner">Hello, {{firstName}}</h2>
+
+    <img id = "img" src = "https://mhcd.org/wp-content/uploads/2017/12/placeholder-woman.png"></img>
 
 
-  </div>
+
+
 
 
 

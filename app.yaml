@@ -14,7 +14,7 @@ handlers:
 
   - url: /testdata
     static_dir: testdata
-    
+
   - url: .*
     script: main.app
 
