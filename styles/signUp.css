@@ -1,0 +1,66 @@
+/*css for the sign up info part*/
+p{
+  color: blue;
+  font-size: 26px;
+  background-color: lightgreen;
+  margin:80px;
+  margin-bottom: 25px;
+  padding-left: 190px;
+  border:5px grey solid;
+ }
+ /*font for everything in the body*/
+ body{
+   font-family: verdana;
+ }
+ /*class for the signup goes with the title*/
+.SignUp{
+  text-align: center;
+  margin: 70px;
+  padding: 10px;
+  padding-left: 0px;
+  padding-right: 0px;
+  background-color: green;
+  color:white;
+  border: 5px blue solid;
+  position: relative;
+  top: 50%
+  transform: translateY(-70%);
+  width: 85%;
+  height: -35px;
+}
+/*Goes with the title bar to help keep it neat*/
+#wrapper {
+    width: 700px;
+    margin: 0 auto;
+}
+/*Is the title page part*/
+u{
+  margin-top: 40px;
+  margin:30px;
+  padding:90px;
+  text-align:center;
+  font-size: 1em;
+  color: transparent;
+  text-transform:uppercase;
+  background-image: linear-gradient(to right, #f00, #ff0, #0ff, #0f0, #00f);
+  -webkit-background-clip: text;
+  animation: animate 20s linear infinite;
+  background-size:70%;
+}
+/*For the animation for the title part*/
+@keyframes animate{
+  0%{
+    background-position: 0% 100%;
+  }
+  50%{
+    background-position: 100% 0%;
+  }
+  100%{
+    background-position: 0% 100%;
+  }
+}
+/*the css body part*/
+body{
+  background-color: black;
+  background-image: url(https://media.giphy.com/media/5YHxrjRtZdsNG/giphy.gif);
+}
