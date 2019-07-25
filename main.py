@@ -6,19 +6,18 @@ import json
 from py import func
 import datetime
 import time
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
-class User(db.Model):
-  first_name = db.StringProperty()
-  last_name = db.StringProperty()
-  username = db.StringProperty()
-  email = db.EmailProperty()
-  password = db.StringProperty()
+class User(ndb.Model):
+  name = ndb.StringProperty()
+  email = ndb.StringProperty()
+  passw = ndb.StringProperty()
 
 
-class UserPreference(db.Model):
-    user = db.ReferenceProperty(reference_class=User)
-    likes_coffee = db.BooleanProperty()
+class UserPreference(ndb.Model):
+    user_id = ndb.KeyProperty()
+    is_set = ndb.BooleanProperty()
+    likes_coffee = ndb.BooleanProperty()
 
 jinja_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -40,7 +39,7 @@ def get_coordinates():
     response = json.loads(urlfetch.fetch(url, method="POST").content)
 
     print(response)
-    
+
     return [response['location']['lat'], response['location']['lng']]
 
 def get_login_msg():
@@ -70,21 +69,41 @@ def get_restaurants(coordinates, filters):
     return json.loads(urlfetch.fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + str(coordinates[0]) + ',' + str(coordinates[1]) + '&radius=' + radius + '&type=cafe&key=AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno').content)
 
 
+def get_user_query(filter):
+    res = User.query().filter(User.email==filter).fetch()
+
+    if len(res) == 0:
+        return None
+    else:
+        return {
+            'key': res[0].key,
+            'name': res[0].name,
+            'email': res[0].email,
+            'passw': res[0].passw
+        }
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        # employee = User(first_name='Antonio',
-        #                     last_name='Salieri')
-        #
-        # employee.put()
-        #
-        # employee_pref = UserPreference(user=employee)
-        # employee_pref.likes_coffee = True
-        # employee_pref.put()
-        #
+        employee = User(name='Steve Mbouadeu',
+                            email='mbouadeus@gmail.com',
+                            passw='examplepass')
+
+        employee.put()
+
+        employee_pref = UserPreference(user_id=employee.key)
+        employee_pref.is_set = True
+        employee_pref.likes_coffee = True
+        employee_pref.put()
+
+
         # time.sleep(2)
+        # users = User.query().filter(User.first_name=='Steve').fetch()
+        # last_user = users[len(users)-1]
         #
-        # users = User.query().filter(first_name='Antonio').fetch()
-        # print(users)
+        # print(last_user)
+        # time.sleep(2)
+        # user_pref = UserPreference.query().filter(UserPreference.user_id == last_user.key).fetch()
+        # print(user_pref[0].likes_coffee)
 
         self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(None)))
 
@@ -119,7 +138,16 @@ class SettingsHandler(webapp2.RequestHandler):
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write(jinja_env.get_template('templates/login.html').render())
+        login_template = jinja_env.get_template('templates/login.html')
+        self.response.write(login_template.render())
+
+    def post(self):
+        user_email = self.request.get('email')
+        user_pass = self.request.get('passw')
+
+        res = get_user_query(user_email)
+
+
 
 
 
