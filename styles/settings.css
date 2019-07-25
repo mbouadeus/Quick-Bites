@@ -17,13 +17,62 @@ form {
 }
 
 
-#wrapper {
-    margin-left:auto;
-    margin-right:auto;
-    padding-top: 400px;
-    width:850px;
+#Username {
+    position: relative;
+    top: 40vh;
+    left: 18vw;
+    width:340px;
+    height: 20vh;
+    width: 26vw;
+    font-size: 2vw;
+    border-radius: 20px;
+    border-spacing: 20px;
+    color: #050505;
+    border-color: #FC0004;
+}
+
+#Placeholder {
+  position: relative;
+  top: 20vh;
+  left: 57vw;
+  height: 20vh;
+  width: 26vw;
+  font-size: 2vw;
+  border-radius: 20px;
+  border-spacing: 20px;
+  color: #FF363D;
+  border-color: #6662FF;
+}
+
+#editPreferences {
+  position: relative;
+  top: 32vh;
+  left: 41vw;
+  height: 5.4vh;
+  width: 18vw;
+  font-size: 1.2vw;
+  border-radius: 20px;
+  border-color: red
 }
 
 #homeButton {
-  padding: .2rem 3rem;
+  padding: .2rem 7rem;
+  margin-top: 10px;
+}
+
+
+#userBanner {
+  position: absolute;
+  top: 35vh;
+  left: 34vw;
+  font-family: 'Nanum Gothic', sans-serif;
+  font-size: 5vw;
+}
+
+
+#img {
+  position: absolute;
+  top: 13vh;
+  left: 45vw;
+  width: 10vw;
 }
