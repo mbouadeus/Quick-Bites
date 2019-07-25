@@ -1,5 +1,9 @@
 form {
-  text-align: center;
+  text-align: left;
+}
+
+.main_container {
+  margin: 0 auto;
 }
 
 #login_container {
@@ -75,12 +79,12 @@ form {
 }
 
 .nav a:hover {
-  background-color: #005f5f;
+  background-color: #007bff;
 }
 
 .nav a.active {
-  background-color: #eee;
-  color: #444;
+  background-color: #007bff;
+  color: #fff;
   cursor: default;
 }
 

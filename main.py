@@ -3,8 +3,22 @@ import os
 import jinja2
 from google.appengine.api import urlfetch, users
 import json
-from py import apis, handlers
+from py import func
+import datetime
+import time
+from google.appengine.ext import db
 
+class User(db.Model):
+  first_name = db.StringProperty()
+  last_name = db.StringProperty()
+  username = db.StringProperty()
+  email = db.EmailProperty()
+  password = db.StringProperty()
+
+
+class UserPreference(db.Model):
+    user = db.ReferenceProperty(reference_class=User)
+    likes_coffee = db.BooleanProperty()
 
 jinja_env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -16,8 +30,8 @@ def main_page_input(filters):
         'login_msg': get_login_msg(),
         'login_url': get_login_url(),
         'login_status': get_login_status(),
-        'restaurants': parse_restaurants(get_restaurants(get_coordinates(), filters), filters)
-}
+        'restaurants': func.parse_restaurants(get_restaurants(get_coordinates(), filters), filters)
+        }
 
 def get_coordinates():
     api_key = 'AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno'
@@ -25,6 +39,8 @@ def get_coordinates():
 
     response = json.loads(urlfetch.fetch(url, method="POST").content)
 
+    print(response)
+    
     return [response['location']['lat'], response['location']['lng']]
 
 def get_login_msg():
@@ -45,7 +61,6 @@ def get_login_status():
     else:
         return 'login'
 
-
 def get_restaurants(coordinates, filters):
     if filters:
         radius = str(int(filters['radius']) * 1610) # converting meters to miles
@@ -54,34 +69,32 @@ def get_restaurants(coordinates, filters):
 
     return json.loads(urlfetch.fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + str(coordinates[0]) + ',' + str(coordinates[1]) + '&radius=' + radius + '&type=cafe&key=AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno').content)
 
-def parse_restaurants(content, filters):
-    restaurants = []
-
-    if filters == None: # If no filters applied
-        for res in content['results']:
-            restaurants.append(res['name'])
-    else:
-        for res in content['results']:
-            if 'price_level' in res:
-                if res['price_level'] <= filters['price_level'] and res['opening_hours']['open_now']: #filter based on price levle and if currently open
-                    restaurants.append(res['name'])
-
-    return restaurants
-
-import webapp2
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input({
-            'price_level': 3,
-            'radius': '10',
-        })))
+        # employee = User(first_name='Antonio',
+        #                     last_name='Salieri')
+        #
+        # employee.put()
+        #
+        # employee_pref = UserPreference(user=employee)
+        # employee_pref.likes_coffee = True
+        # employee_pref.put()
+        #
+        # time.sleep(2)
+        #
+        # users = User.query().filter(first_name='Antonio').fetch()
+        # print(users)
+
+        self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(None)))
 
     def post(self):
         filters = {
-            'price_level': '2',
-            'radius': '100',
+            'price_level': self.request.get('price_level'),
+            'radius': self.request.get('radius')
         }
+
+        self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(filters)))
 
 class BreakfastHandler(webapp2.RequestHandler):
     def get(self):
