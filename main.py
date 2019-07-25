@@ -100,6 +100,10 @@ class SettingsHandler(webapp2.RequestHandler):
         # self.response.write(restaurants.is_here)
         self.response.write(jinja_env.get_template('templates/settings.html').render())
 
+class LoginHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(jinja_env.get_template('templates/login.html').render())
+
 
 
 app = webapp2.WSGIApplication([
@@ -108,7 +112,7 @@ app = webapp2.WSGIApplication([
     ('/lunch', LunchHanlder),
     ('/dinner', DinnerHandler),
     ('/settings', SettingsHandler),
-    # ('/login', LoginHandler),
+    ('/login', LoginHandler),
     # ('/logout', LogoutHandler),
 
 ], debug=True)
