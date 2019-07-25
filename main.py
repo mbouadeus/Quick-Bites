@@ -110,7 +110,8 @@ class DinnerHandler(webapp2.RequestHandler):
 
 class SettingsHandler(webapp2.RequestHandler):
     def get(self):
-        self.response.write(restaurants.is_here)
+        # self.response.write(restaurants.is_here)
+        self.response.write(jinja_env.get_template('templates/settings.html').render())
 
 
 
