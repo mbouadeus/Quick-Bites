@@ -154,6 +154,6 @@ app = webapp2.WSGIApplication([
     ('/dinner', DinnerHandler),
     ('/settings', SettingsHandler),
     ('/login', LoginHandler),
-    ('/logout', LogoutHandler),
+    # ('/logout', LogoutHandler),
 
 ], debug=True)
