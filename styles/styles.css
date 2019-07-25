@@ -1,5 +1,9 @@
 form {
-  text-align: center;
+  text-align: left;
+}
+
+.main_container {
+  margin: 0 auto;
 }
 
 #login_container {
@@ -18,7 +22,7 @@ form {
 #login_btn {
   padding: .1rem .5rem;
 }
-b{
+/* b{
   float: left;
   margin-bottom: -27px;
   margin-left: 25px;
@@ -39,7 +43,7 @@ b{
                0 5px 5px rgba(0,0,0,.2),
                0 0px 0px rgba(43,161,49,1);
   font-size: 20px;
-}
+} */
 .nav {
   margin: 2rem 1rem;
 }
@@ -99,12 +103,12 @@ b{
 }
 
 .nav a:hover {
-  background-color: #005f5f;
+  background-color: #007bff;
 }
 
 .nav a.active {
-  background-color: #eee;
-  color: #444;
+  background-color: #007bff;
+  color: #fff;
   cursor: default;
 }
 
