@@ -1,0 +1,47 @@
+body{
+text-align: : center;
+background-image: url(homePage.png);
+}
+h1{
+  text-align: center;
+  font-size: 50px;
+}
+
+p{
+  text-align: justify;
+  padding:170px;
+  padding-top: 20px;
+  font-size: 25px;
+  font-family:"Gill Sans", sans-serif;
+  border: 10px solid;
+  padding:90px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 170px;
+  margin-right:50px;
+  border-image: url(https://www.color-hex.com/palettes/23378.png) 90 round;
+}
+li{
+  display:flex;
+  width: 70px;
+  height: 25px;
+  background-color: #0df2d4;
+}
+li.home:hover {
+  display:flex;
+  width: 70px;
+  height: 25px;
+  background-color: #006add;
+}
+li.settings:hover{
+  color:white;
+  background-color: #40f20d;
+}
+li.login:hover{
+  color:white;
+  background-color:#f20ded;
+}
+li.signup:hover{
+  background-color: #f2e00d;
+  color:white;
+}

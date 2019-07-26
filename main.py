@@ -146,6 +146,10 @@ class LoginHandler(webapp2.RequestHandler):
         user_pass = self.request.get('passw')
 
         res = get_user_query(user_email)
+class HomePageHandler(webapp2.RequestHandler):
+    def get(self):
+        preference_template = jinja_env.get_template('templates/homePage.html')
+        self.response.write(preference_template.render())
 
 class preferenceHandler(webapp2.RequestHandler):
     def get(self):
@@ -157,6 +161,7 @@ class preferenceHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/homePage',HomePageHandler),
     ('/signUp',SignUpHandler),
     ('/breakfast', BreakfastHandler),
     ('/lunch', LunchHanlder),
