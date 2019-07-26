@@ -145,6 +145,10 @@ class LoginHandler(webapp2.RequestHandler):
         user_pass = self.request.get('passw')
 
         res = get_user_query(user_email)
+class HomePageHandler(webapp2.RequestHandler):
+    def get(self):
+        preference_template = jinja_env.get_template('templates/homePage.html')
+        self.response.write(preference_template.render())
 
         if res:
             self.response.headers.add_header('Set-Cookie','email=' + str(res.email)) #Setting email in cookie
@@ -192,7 +196,8 @@ class PreferencesHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/signup',SignUpHandler),
+    ('/homePage',HomePageHandler),
+    ('/signUp',SignUpHandler),
     ('/preferences', PreferencesHandler),
     ('/breakfast', BreakfastHandler),
     ('/lunch', LunchHanlder),
