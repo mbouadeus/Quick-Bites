@@ -1,0 +1,77 @@
+body{
+text-align: : center;
+background-image: url(../img/homePage.png);
+}
+h1{
+  text-align: center;
+  font-size: 50px;
+}
+.sidenav{
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 60px;
+  transition: 0.5s;
+}
+.sidenav a{
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+.sidenav a:hover{
+  color: #f1f1f1;
+}
+#main{
+  transition: margin-left .5s;
+  padding: 20px;
+}
+@media screen and (max-height:450){
+  .sidenav{padding-top: 15px;}
+  .sidenav a{font-size:18px;}
+}
+p{
+  text-align: justify;
+  padding:170px;
+  padding-top: 20px;
+  font-size: 25px;
+  font-family:"Gill Sans", sans-serif;
+  border: 10px solid;
+  padding:90px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: 170px;
+  margin-right:50px;
+  border-image: url(https://www.color-hex.com/palettes/23378.png) 90 round;
+}
+li{
+  display:flex;
+  width: 70px;
+  height: 25px;
+  background-color: #0df2d4;
+}
+li.home:hover {
+  display:flex;
+  width: 70px;
+  height: 25px;
+  background-color: #006add;
+}
+li.settings:hover{
+  color:white;
+  background-color: #40f20d;
+}
+li.login:hover{
+  color:white;
+  background-color:#f20ded;
+}
+li.signup:hover{
+  background-color: #f2e00d;
+  color:white;
+}

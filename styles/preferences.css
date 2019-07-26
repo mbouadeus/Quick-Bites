@@ -1,0 +1,77 @@
+/* #container {
+  display
+  position: absolute;
+  width: 80vw;
+  margin-left: 10vw;
+  border: 5vw;
+} */
+border{
+  color: red;
+}
+
+
+.wrapper {
+  width: 960px;
+  margin: 0 auto 0 auto;
+}
+
+
+
+#firstOption {
+  position: absolute;
+  top: 3vh;
+  left: 3vw;
+  color: red;
+  text-shadow: 10px 10px 5px blue;
+  text-shadow:
+}
+
+
+#secondOption {
+  position: absolute;
+  top: 20vh;
+  left: 3vw;
+}
+
+
+
+#thirdOption {
+  position: absolute;
+  top: 36vh;
+  left: 3vw;
+}
+
+
+
+#fourthOption {
+  position: absolute;
+  top: 52vh;
+  left: 3vw;
+}
+
+
+#fifthOption {
+  position: absolute;
+  top: 65vh;
+  left: 3vw;
+}
+
+
+#sixthOption {
+  position: absolute;
+  top: 79vh;
+  left: 3vw;
+}
+
+/* container {
+  margin-left:
+} */
+
+
+#submitButton {
+  position: absolute;
+  top: 92vh;
+  left: 3vw;
+  font-size: 24px;
+  border-radius: 15px;
+}

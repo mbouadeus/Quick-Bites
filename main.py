@@ -143,14 +143,12 @@ class LoginHandler(webapp2.RequestHandler):
     def post(self):
         user_email = self.request.get('email')
         user_pass = self.request.get('passw')
-
         res = get_user_query(user_email)
 
-        if res:
-            self.response.headers.add_header('Set-Cookie','email=' + str(res.email)) #Setting email in cookie
-            self.redirect('/')
-        else:
-            self.redirect('/login') # Should be rendering user not found message
+class HomePageHandler(webapp2.RequestHandler):
+    def get(self):
+        preference_template = jinja_env.get_template('templates/homePage.html')
+        self.response.write(preference_template.render())
 
 class GLoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -182,6 +180,7 @@ class SignUpHandler(webapp2.RequestHandler):
     def get(self):
         signup_template = jinja_env.get_template('templates/signup.html')
         self.response.write(signup_template.render())
+        
     def post(self):
         name = self.request.get('first_name') + " " + self.request.get('last_name')
         email = self.request.get('email')
@@ -212,6 +211,7 @@ class PreferencesHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/homepage', HomePageHandler),
     ('/breakfast', BreakfastHandler),
     ('/lunch', LunchHanlder),
     ('/dinner', DinnerHandler),
