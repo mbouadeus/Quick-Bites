@@ -11,7 +11,7 @@
 
     <!-- Tabs Titles -->
     <h2 class="active"> Sign In </h2>
-    <button id = "SignUp" class="inactive underlineHover">Sign Up</button>
+    <a id = "SignUp" class="active underlineHover">Sign Up</button>
 
     <!-- Icon -->
     <!-- <div class="fadeIn first">
@@ -19,9 +19,9 @@
     </div> -->
 
     <!-- Login Form -->
-    <form>
-      <input type="text" id="login" class="fadeIn second" name="login" placeholder="Email" required>
-      <input type="password" id="password" class="fadeIn third" name="login" placeholder="Password" required>
+    <form method="POST" action="/login">
+      <input type="text" id="login" class="fadeIn second" name="email" placeholder="Email" required>
+      <input type="password" id="password" class="fadeIn third" name="passw" placeholder="Password" required>
       <input type="submit" class="fadeIn fourth" value="Log In">
     </form>
 

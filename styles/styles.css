@@ -22,28 +22,7 @@ form {
 #login_btn {
   padding: .1rem .5rem;
 }
- b{
-  float: left;
-  margin-bottom: -27px;
-  margin-left: 25px;
-  padding-top: -25px;
-  margin-top: -35px;
-  position:relative;
-  z-index: 1;
-   text-shadow: 0 0px 0 #cc00ff,
-               0 0px 0 #fb50e5,
-               0 1px 0 #bbb,
-               0 0px 0 #fb50e5,
-               0 5px 0 #aaa,
-               0 6px 1px rgba(0,0,0,.1),
-               0 0 5px rgba(0,0,0,.1),
-               0 0px 0px rgba(137, 43, 161, 1),
-               0 3px 5px rgba(0,0,0,.2),
-               0 5px 10px rgba(0,0,0,.25),
-               0 5px 5px rgba(0,0,0,.2),
-               0 0px 0px rgba(43,161,49,1);
-  font-size: 20px;
-} */
+
 .nav {
   margin: 2rem 1rem;
 }

@@ -15,8 +15,8 @@ function init() {
       // window.location.href = '/lat=' + lat + '&lng=' + lng
 
       var form = $('<form action="/" method="post">' +
-        '<input type="text" name="lat" value="' + lat + '" />' +
-        '<input type="text" name="lng" value="' + lng + '" />' +
+        '<input type="hidden" name="lat" value="' + lat + '" />' +
+        '<input type="hidden" name="lng" value="' + lng + '" />' +
         '</form>');
       $('body').append(form);
       form.submit();

@@ -15,7 +15,7 @@ class User(ndb.Model):
 
 
 class UserPreference(ndb.Model):
-    user_id = ndb.KeyProperty()
+    email = ndb.StringProperty()
     is_set = ndb.BooleanProperty()
     likes_coffee = ndb.BooleanProperty()
 
@@ -24,11 +24,11 @@ jinja_env = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-def main_page_input(filters, coordinates):
+def main_page_input(filters, coordinates, email):
     res_input = { # retrieving all main page template parameters
-        'login_msg': login.get_login_msg(),
-        'login_url': login.get_login_url(),
-        'login_status': login.get_login_status(),
+        'login_msg': login.get_login_msg(email, get_user_query),
+        'login_url': login.get_login_url(email),
+        'login_status': login.get_login_status(email),
         'lat': coordinates[0],
         'lng': coordinates[1],
         'restaurants': restaurant.parse_restaurants(restaurant.get_restaurants(coordinates, filters), filters)
@@ -49,23 +49,15 @@ def get_user_query(filter):
     if len(res) == 0:
         return None
     else:
-        return {
-            'key': res[0].key,
-            'name': res[0].name,
-            'email': res[0].email,
-            'passw': res[0].passw
-        }
+        return res[0]
 
 def get_pref_query(filter):
-    res = UserPreference.query().filter(UserPreference.user_id==filter).fetch()
+    res = UserPreference.query().filter(UserPreference.email==filter).fetch()
 
-    if res[0].is_set:
-        return {
-            'user_id': res[0].user_id,
-            'likes_coffee': res[0].likes_coffee,
-        }
-    else:
-        return None
+    return res[0]
+
+
+
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -100,6 +92,8 @@ class MainHandler(webapp2.RequestHandler):
         self.response.write(jinja_env.get_template('templates/getlocation.html').render())
 
     def post(self):
+        email = self.request.cookies.get('email')
+
         if (self.request.get('radius')):
             filters = {
                 'price_level': self.request.get('price_level'),
@@ -108,12 +102,12 @@ class MainHandler(webapp2.RequestHandler):
             coordinates = []
             coordinates.append(self.request.get('lat'))
             coordinates.append(self.request.get('lng'))
-            self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(filters, coordinates)))
+            self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(filters, coordinates, email)))
         else:
             coordinates = []
             coordinates.append(self.request.get('lat'))
             coordinates.append(self.request.get('lng'))
-            self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(None, coordinates)))
+            self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(None, coordinates, email)))
 
 class BreakfastHandler(webapp2.RequestHandler):
     def get(self):
@@ -152,20 +146,61 @@ class LoginHandler(webapp2.RequestHandler):
 
         res = get_user_query(user_email)
 
+        if res:
+            self.response.headers.add_header('Set-Cookie','email=' + str(res.email)) #Setting email in cookie
+            self.redirect('/')
+        else:
+            self.redirect('/login') # Should be rendering user not found message
 
+class LogoutHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.headers.add_header("Set-Cookie", 'email=empty')
+        print('logging out')
+        self.redirect('/')
 
+class SignUpHandler(webapp2.RequestHandler):
+    def get(self):
+        signup_template = jinja_env.get_template('templates/signup.html')
+        self.response.write(signup_template.render())
+    def post(self):
+        name = self.request.get('first_name') + " " + self.request.get('last_name')
+        email = self.request.get('email')
+        passw = self.request.get('passw1')
 
+        user = User(name=name, email=email, passw=passw)
+        user.put()
+
+        UserPreference(email=user.email, is_set=False).put() # Create UserPreference for user
+
+        pref_template = jinja_env.get_template('templates/preferences.html')
+        self.response.write(pref_template.render({
+            'email': user.email
+        }))
+
+class PreferencesHandler(webapp2.RequestHandler):
+    def post(self):
+        email = str(self.request.get('email'))
+
+        self.response.headers.add_header('Set-Cookie','email=' + email) #Setting email in cookie
+
+        user_pref = get_pref_query(email)
+        user_pref.is_set = True
+        user_pref.likes_coffee = False # set preferences
+        user_pref.put()
+
+        self.redirect('/')
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/signUp',SignUpHandler),
+    ('/signup',SignUpHandler),
+    ('/preferences', PreferencesHandler),
     ('/breakfast', BreakfastHandler),
     ('/lunch', LunchHanlder),
     ('/dinner', DinnerHandler),
     ('/settings', SettingsHandler),
     ('/login', LoginHandler),
-    ('/setlocation', SetLocationHandler)
-    # ('/logout', LogoutHandler),
+    ('/setlocation', SetLocationHandler),
+    ('/logout', LogoutHandler),
 
 
 ], debug=True)

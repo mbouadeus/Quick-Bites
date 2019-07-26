@@ -28,13 +28,10 @@ def parse_info(res):
 def parse_restaurants(content, filters):
     restaurants = []
 
-    print(content)
     if filters is None: # If no filters applied
-        print("This is something else")
         for res in content['results']:
             restaurants.append(parse_info(res))
     else:
-        print(content)
         for res in content['results']:
             if 'price_level' in res:
                 if res['price_level'] <= filters['price_level'] and res['opening_hours']['open_now']: #filter based on price levle and if currently open
@@ -43,7 +40,6 @@ def parse_restaurants(content, filters):
     return restaurants
 
 def get_restaurants(coordinates, filters):
-    print("this is from get_restaurants method")
     if filters:
         radius = str(int(filters['radius']) * 1610) # converting meters to miles
     else:
@@ -52,5 +48,4 @@ def get_restaurants(coordinates, filters):
 
 
     res = json.loads(urlfetch.fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + str(coordinates[0]) + ',' + str(coordinates[1]) + '&radius=' + radius + '&type=cafe&key=AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno').content)
-    print(res)
     return res
