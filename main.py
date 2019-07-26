@@ -152,6 +152,26 @@ class LoginHandler(webapp2.RequestHandler):
         else:
             self.redirect('/login') # Should be rendering user not found message
 
+class GLoginHandler(webapp2.RequestHandler):
+    def get(self):
+        user = users.get_current_user()
+        if user:
+            email = str(user.nickname) +'@gmail.com'
+            res = get_user_query(email)
+
+            if res:
+                self.response.headers.add_header('Set-Cookie','email=' + email) #Setting email in cookie
+                self.redirect('/')
+            else:
+                self.redirect('/signup')
+        else:
+            glogin = users.create_login_url('/glogin')
+            self.redirect(glogin)
+
+class GSignUpHandler(webapp2.RequestHandler):
+    def get(self):
+        pass
+
 class LogoutHandler(webapp2.RequestHandler):
     def get(self):
         self.response.headers.add_header("Set-Cookie", 'email=empty')
@@ -192,15 +212,15 @@ class PreferencesHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/signup',SignUpHandler),
-    ('/preferences', PreferencesHandler),
     ('/breakfast', BreakfastHandler),
     ('/lunch', LunchHanlder),
     ('/dinner', DinnerHandler),
     ('/settings', SettingsHandler),
-    ('/login', LoginHandler),
     ('/setlocation', SetLocationHandler),
+    ('/login', LoginHandler),
+    ('/glogin', GLoginHandler),
     ('/logout', LogoutHandler),
-
-
+    ('/signup', SignUpHandler),
+    ('/gsignup', GSignUpHandler),
+    ('/preferences', PreferencesHandler),
 ], debug=True)
