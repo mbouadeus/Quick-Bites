@@ -127,6 +127,10 @@ class DinnerHandler(webapp2.RequestHandler):
     def get(self):
         self.response.write('Dinner Page')
 
+class SignUpHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.write(jinja_env.get_template('templates/signUp.html').render())
+
 class SettingsHandler(webapp2.RequestHandler):
     def get(self):
         # self.response.write(restaurants.is_here)
@@ -154,6 +158,7 @@ class LoginHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+    ('/signUp',SignUpHandler),
     ('/breakfast', BreakfastHandler),
     ('/lunch', LunchHanlder),
     ('/dinner', DinnerHandler),
@@ -161,5 +166,6 @@ app = webapp2.WSGIApplication([
     ('/login', LoginHandler),
     ('/setlocation', SetLocationHandler)
     # ('/logout', LogoutHandler),
+
 
 ], debug=True)

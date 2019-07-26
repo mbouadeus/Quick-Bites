@@ -22,7 +22,7 @@ form {
 #login_btn {
   padding: .1rem .5rem;
 }
-/* b{
+ b{
   float: left;
   margin-bottom: -27px;
   margin-left: 25px;
@@ -52,6 +52,8 @@ form {
   overflow: hidden;
 }
 #nav_menu {
+<<<<<<< HEAD
+=======
   display: inline-block;
   float: right;
 }
@@ -137,3 +139,4 @@ form {
 h1{
   text-align:center;
 }
+>>>>>>> 36db61f79920a63f61812f185c7f23697d9bc481
