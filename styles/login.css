@@ -77,7 +77,9 @@ h2 {
 
 /* TABS */
 
-h2.inactive {
+#SignUp {
+  outline: none;
+  border: none;
   color: #cccccc;
 }
 
@@ -86,7 +88,15 @@ h2.active {
   border-bottom: 2px solid #5fbae9;
 }
 
-
+#Google {
+  border: none;
+  outline: none;
+  padding-right: 5px; 
+  border-radius: 10px;
+  color: #030303;
+  background-color: #EFEDF2;
+  text-shadow: 1px 1px 7px #FF030B;
+}
 
 /* FORM TYPOGRAPHY*/
 
@@ -112,6 +122,27 @@ input[type=button], input[type=submit], input[type=reset]  {
   transition: all 0.3s ease-in-out;
 }
 
+#password{
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+
 input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
   background-color: #39ace7;
 }
@@ -124,6 +155,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   transform: scale(0.95);
 }
 
+/* input boxes css  */
 input[type=text] {
   background-color: #f6f6f6;
   border: none;
