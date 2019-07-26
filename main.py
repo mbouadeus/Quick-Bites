@@ -147,6 +147,10 @@ class LoginHandler(webapp2.RequestHandler):
 
         res = get_user_query(user_email)
 
+class preferenceHandler(webapp2.RequestHandler):
+    def get(self):
+        preference_template = jinja_env.get_template('templates/preferences.html')
+        self.response.write(preference_template.render())
 
 
 
@@ -160,6 +164,7 @@ app = webapp2.WSGIApplication([
     ('/settings', SettingsHandler),
     ('/login', LoginHandler),
     # ('/logout', LogoutHandler),
+    ('/preferences', preferenceHandler),
 
 
 ], debug=True)
