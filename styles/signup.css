@@ -81,6 +81,9 @@ body{
 /* html {
   background-color: #56baed;
 } */
+button{
+  size:24px;
+}
 
 body {
   font-family: "Poppins", sans-serif;
@@ -93,7 +96,19 @@ body {
   text-decoration: none;
   font-weight: 400;
 } */
+button{
+  font-size: 18px;
+  font-style: bold;
+   background-color: Transparent;
+   background-repeat:no-repeat;
+   border: none;
+   cursor:pointer;
+   overflow: hidden;
+}
 
+.inactive{
+  size:24px;
+}
 h2 {
   text-align: center;
   font-size: 16px;
@@ -136,7 +151,7 @@ h2 {
 
 /* TABS */
 
-#SignIn {
+#SignUp {
   outline: none;
   border: none;
   color: #cccccc;

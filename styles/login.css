@@ -13,12 +13,21 @@ body{
 /* html {
   background-color: #56baed;
 } */
-
+button{
+  size:24px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+}
 body {
   font-family: "Poppins", sans-serif;
   height: 100vh;
 }
-
+.signUp{
+  size:24px;
+}
 /* a {
   color: #92badd;
   display:inline-block;
@@ -82,7 +91,9 @@ h2 {
   border: none;
   color: #cccccc;
 }
-
+h2.inactive{
+  font-size: 16px;
+}
 h2.active {
   color: #0d0d0d;
   border-bottom: 2px solid #5fbae9;
@@ -91,7 +102,7 @@ h2.active {
 #Google {
   border: none;
   outline: none;
-  padding-right: 5px; 
+  padding-right: 5px;
   border-radius: 10px;
   color: #030303;
   background-color: #EFEDF2;
