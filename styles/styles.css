@@ -22,6 +22,7 @@ form {
 #login_btn {
   padding: .1rem .5rem;
 }
+<<<<<<< HEAD
  b{
   /* float: left; */
   margin-bottom: -27px;
@@ -44,6 +45,9 @@ form {
                0 0px 0px rgba(43,161,49,1); */
   font-size: 20px;
 } */
+=======
+
+>>>>>>> d801b60c663304e44734c2b2d49149e568748541
 .nav {
   margin: 2rem 1rem;
 }

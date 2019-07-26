@@ -1,3 +1,7 @@
+from py import login, location
+import json
+from google.appengine.api import urlfetch
+
 def parse_info(res):
     content = {}
 
@@ -7,7 +11,7 @@ def parse_info(res):
     if 'vicinity' in res:
         content['address'] = res['vicinity']
     else:
-        content['address'] = None 
+        content['address'] = None
 
     if 'icon' in res:
         content['icon'] = res['icon']
@@ -24,7 +28,7 @@ def parse_info(res):
 def parse_restaurants(content, filters):
     restaurants = []
 
-    if filters == None: # If no filters applied
+    if filters is None: # If no filters applied
         for res in content['results']:
             restaurants.append(parse_info(res))
     else:
@@ -34,3 +38,14 @@ def parse_restaurants(content, filters):
                     restaurants.append(parse_info(res))
 
     return restaurants
+
+def get_restaurants(coordinates, filters):
+    if filters:
+        radius = str(int(filters['radius']) * 1610) # converting meters to miles
+    else:
+        radius = '8047' # default radius
+
+
+
+    res = json.loads(urlfetch.fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + str(coordinates[0]) + ',' + str(coordinates[1]) + '&radius=' + radius + '&type=cafe&key=AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno').content)
+    return res
