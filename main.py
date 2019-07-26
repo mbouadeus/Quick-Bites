@@ -3,7 +3,7 @@ import os
 import jinja2
 from google.appengine.api import urlfetch, users
 import json
-from py import func
+from py import restaurant, login
 import datetime
 import time
 from google.appengine.ext import ndb
@@ -24,49 +24,23 @@ jinja_env = jinja2.Environment(
     extensions=['jinja2.ext.autoescape'],
     autoescape=True)
 
-def main_page_input(filters):
-    return { # retrieving all main page template parameters
-        'login_msg': get_login_msg(),
-        'login_url': get_login_url(),
-        'login_status': get_login_status(),
-        'restaurants': func.parse_restaurants(get_restaurants(get_coordinates(), filters), filters)
+def main_page_input(filters, coordinates):
+    res_input = { # retrieving all main page template parameters
+        'login_msg': login.get_login_msg(),
+        'login_url': login.get_login_url(),
+        'login_status': login.get_login_status(),
+        'lat': coordinates[0],
+        'lng': coordinates[1],
+        'restaurants': restaurant.parse_restaurants(restaurant.get_restaurants(coordinates, filters), filters)
         }
 
-def get_coordinates():
-    api_key = 'AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno'
-    url = 'https://www.googleapis.com/geolocation/v1/geolocate?key=' + api_key
+    if filters: # To refill the filter from when page reload
+        res_input['price_level'] = filters['price_level']
+        res_input['radius'] = filters['radius']
 
-    response = json.loads(urlfetch.fetch(url, method="POST").content)
+    return res_input
 
-    print(response)
 
-    return [response['location']['lat'], response['location']['lng']]
-
-def get_login_msg():
-    if users.get_current_user():
-        return 'Welcome, ' + users.get_current_user().nickname()
-    else:
-        return 'Welcome, Guest'
-
-def get_login_url():
-    if users.get_current_user():
-        return users.create_logout_url('/')
-    else:
-        return users.create_login_url('/') #Get time and pick (breakfast, lunch, or dinner)
-
-def get_login_status():
-    if users.get_current_user():
-        return 'logout'
-    else:
-        return 'login'
-
-def get_restaurants(coordinates, filters):
-    if filters:
-        radius = str(int(filters['radius']) * 1610) # converting meters to miles
-    else:
-        radius = '8047' # default radius
-
-    return json.loads(urlfetch.fetch('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + str(coordinates[0]) + ',' + str(coordinates[1]) + '&radius=' + radius + '&type=cafe&key=AIzaSyBaL3Iw07VGFL5-PklkXrYas6lwi8NQQno').content)
 
 
 def get_user_query(filter):
@@ -82,18 +56,29 @@ def get_user_query(filter):
             'passw': res[0].passw
         }
 
+def get_pref_query(filter):
+    res = UserPreference.query().filter(UserPreference.user_id==filter).fetch()
+
+    if res[0].is_set:
+        return {
+            'user_id': res[0].user_id,
+            'likes_coffee': res[0].likes_coffee,
+        }
+    else:
+        return None
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-        employee = User(name='Steve Mbouadeu',
-                            email='mbouadeus@gmail.com',
-                            passw='examplepass')
-
-        employee.put()
-
-        employee_pref = UserPreference(user_id=employee.key)
-        employee_pref.is_set = True
-        employee_pref.likes_coffee = True
-        employee_pref.put()
+        # employee = User(name='Steve Mbouadeu',
+        #                     email='mbouadeus@gmail.com',
+        #                     passw='examplepass')
+        #
+        # employee.put()
+        #
+        # employee_pref = UserPreference(user_id=employee.key)
+        # employee_pref.is_set = True
+        # employee_pref.likes_coffee = True
+        # employee_pref.put()
 
 
         # time.sleep(2)
@@ -105,15 +90,30 @@ class MainHandler(webapp2.RequestHandler):
         # user_pref = UserPreference.query().filter(UserPreference.user_id == last_user.key).fetch()
         # print(user_pref[0].likes_coffee)
 
-        self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(None)))
+        # if (self.request.get('lat')):
+        #     coordinates = []
+        #     coordinates.append(self.request.get('lat'))
+        #     coordinates.append(self.request.get('lng'))
+        #     self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(None, coordinates)))
+        #
+        # else:
+        self.response.write(jinja_env.get_template('templates/getlocation.html').render())
 
     def post(self):
-        filters = {
-            'price_level': self.request.get('price_level'),
-            'radius': self.request.get('radius')
-        }
-
-        self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(filters)))
+        if (self.request.get('radius')):
+            filters = {
+                'price_level': self.request.get('price_level'),
+                'radius': self.request.get('radius')
+            }
+            coordinates = []
+            coordinates.append(self.request.get('lat'))
+            coordinates.append(self.request.get('lng'))
+            self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(filters, coordinates)))
+        else:
+            coordinates = []
+            coordinates.append(self.request.get('lat'))
+            coordinates.append(self.request.get('lng'))
+            self.response.write(jinja_env.get_template('templates/main.html').render(main_page_input(None, coordinates)))
 
 class BreakfastHandler(webapp2.RequestHandler):
     def get(self):
@@ -131,6 +131,11 @@ class SettingsHandler(webapp2.RequestHandler):
     def get(self):
         # self.response.write(restaurants.is_here)
         self.response.write(jinja_env.get_template('templates/settings.html').render())
+
+class SetLocationHandler(webapp2.RequestHandler):
+    def get(self):
+        self.redirect('/?lat=' + self.request.get('lat') + "&lng=" + self.request.get('lng'))
+
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
@@ -154,6 +159,7 @@ app = webapp2.WSGIApplication([
     ('/dinner', DinnerHandler),
     ('/settings', SettingsHandler),
     ('/login', LoginHandler),
+    ('/setlocation', SetLocationHandler)
     # ('/logout', LogoutHandler),
 
 ], debug=True)
