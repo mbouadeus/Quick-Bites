@@ -2,10 +2,6 @@ form {
   text-align: left;
 }
 
-.main_container {
-  margin: 0 auto;
-}
-
 #login_container {
   padding: .2rem 1rem;
   text-align: right;
@@ -22,32 +18,7 @@ form {
 #login_btn {
   padding: .1rem .5rem;
 }
-<<<<<<< HEAD
- b{
-  /* float: left; */
-  margin-bottom: -27px;
-  margin-left: 25px;
-  padding-top: -25px;
-  margin-top: -35px;
-   position:relative;
-   z-index: 1;
-   /* text-shadow: 0 0px 0 #cc00ff,
-               0 0px 0 #fb50e5,
-               0 1px 0 #bbb,
-               0 0px 0 #fb50e5,
-               0 5px 0 #aaa,
-               0 6px 1px rgba(0,0,0,.1),
-               0 0 5px rgba(0,0,0,.1),
-               0 0px 0px rgba(137, 43, 161, 1),
-               0 3px 5px rgba(0,0,0,.2),
-               0 5px 10px rgba(0,0,0,.25),
-               0 5px 5px rgba(0,0,0,.2),
-               0 0px 0px rgba(43,161,49,1); */
-  font-size: 20px;
-} */
-=======
 
->>>>>>> d801b60c663304e44734c2b2d49149e568748541
 .nav {
   margin: 2rem 1rem;
 }
@@ -55,12 +26,7 @@ form {
 #nav_list {
   overflow: hidden;
 }
-#nav_menu {
-<<<<<<< HEAD
-=======
-  display: inline-block;
-  float: right;
-}
+
 #Filter{
   background-color: lightblue;
   border-radius: 25px;
@@ -109,11 +75,11 @@ form {
 }
 
 .nav a:hover {
-  background-color: #007bff;
+  background-color: #dc3545;
 }
 
 .nav a.active {
-  background-color: #007bff;
+  background-color: #dc3545;
   color: #fff;
   cursor: default;
 }
@@ -121,10 +87,36 @@ form {
 #res_results {
   display: block;
   position: relative;
-  max-height: 60vh;
+  height: 50vh;
   overflow: auto;
+  margin-right: 2rem;
 }
 
+.restaurant_item {
+  cursor: pointer;
+}
+
+#container {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+}
+
+#filter {
+  align-self: flex-start;
+}
+
+.filter_elem {
+  margin-top: .5rem;
+}
+
+#submit_btn {
+  margin-top: .5rem;
+}
+
+#res_results, #filter {
+  background-color: #E8E9EB;
+}
 @media screen and (min-width: 600px) {
   .nav li {
     width: 120px;
@@ -143,4 +135,35 @@ form {
 h1{
   text-align:center;
 }
->>>>>>> 36db61f79920a63f61812f185c7f23697d9bc481
+}
+
+@media screen and (max-width: 600px) {
+  #container {
+    flex-direction: column-reverse;
+  }
+
+  #filter {
+    align-self: stretch;
+    max-width: calc(100% - 4rem);
+    margin: 0 2rem 1rem;
+  }
+
+  #filter_cont {
+    text-align: center;
+  }
+
+  .filter_elem {
+    display: inline-block;
+  }
+
+  #submit_btn {
+    display: block;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  #res_results {
+    align-self: stretch;
+    max-width: calc(100% - 4rem);
+    margin: 0 2rem;
+  }
+}

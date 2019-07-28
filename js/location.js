@@ -14,7 +14,9 @@ function init() {
       lng = value['location']['lng']
       // window.location.href = '/lat=' + lat + '&lng=' + lng
 
-      var form = $('<form action="/" method="post">' +
+      link = $('#return').val();
+
+      var form = $('<form action="' + link + '" method="post">' +
         '<input type="hidden" name="lat" value="' + lat + '" />' +
         '<input type="hidden" name="lng" value="' + lng + '" />' +
         '</form>');

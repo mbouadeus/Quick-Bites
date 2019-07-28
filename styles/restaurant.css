@@ -1,0 +1,27 @@
+#header {
+  position: relative;
+  text-align: center;
+}
+
+#restaurant_details {
+  display: inline-block;
+  text-align: center;
+  height: 10rem;
+  margin-top: 300px;
+  width: 80%;
+}
+
+.map-responsive{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+
+}
+iframe {
+    left:50%;
+    top:0;
+    height: 300px;
+    width:80%;
+    position:absolute;
+    transform: translate(-50%, 0%);
+}

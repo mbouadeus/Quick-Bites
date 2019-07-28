@@ -1,7 +1,7 @@
 from google.appengine.api import urlfetch, users
 
 def get_login_msg(email, query):
-    if email != "empty":
+    if email != "empty" and email:
         res = query(email)
         return 'Welcome, ' + res.name #users.get_current_user().nickname()
     else:
@@ -9,7 +9,7 @@ def get_login_msg(email, query):
 
 
 def get_login_url(email):
-    if email != "empty":
+    if email != "empty" and email:
         # return users.create_logout_url('/')
         return '/logout'
     else:
@@ -17,7 +17,7 @@ def get_login_url(email):
         return '/login'
 
 def get_login_status(email):
-    if email != "empty":
+    if email != "empty" and email:
         return 'logout'
     else:
         return 'login'

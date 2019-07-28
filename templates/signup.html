@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="/styles/signUp.css" />
+  <link rel="stylesheet" href="/styles/signup.css" />
   <title>Signing Up!</title>
 </head>
 <body>
@@ -25,17 +25,17 @@
     <!-- Login Form -->
     <br>
     <form method="POST">
-      <input type="text" id="First Name" class="fadeIn second" name="first_name" placeholder="First Name">
+      <input type="text" id="First Name" class="fadeIn second" name="first_name" placeholder="First Name" required>
     </br>
-    <br><input type="text" id="Last Name" class="fadeIn third" name="last_name" placeholder="Last Name">
+    <br><input type="text" id="Last Name" class="fadeIn third" name="last_name" placeholder="Last Name" required>
     </br>
-    <br><input type="email" id="Email" class="fadeIn second" name="email" placeholder="Email">
+    <br><input type="email" id="Email" class="fadeIn second" name="email" placeholder="Email" required>
     </br>
       <br><input type="password" id="password" class="fadeIn second" name="passw1"
-      placeholder="Password">
+      placeholder="Password" minlength="8" required>
     </br>
       <br><input type="password" id="password2" class="fadeIn second" name="passw2" data-match="#password"
-      data-match-error="Whoops, password don't match" placeholder="Repeat Password">
+      data-match-error="Whoops, password don't match" placeholder="Repeat Password" minlength="8" required>
       <br>
       <br><input type="submit" class="fadeIn fourth" value="Sign Up">
     </br>
@@ -63,6 +63,10 @@
   <input type="text" name="inputBox" value=" "> -->
 
   <!-- <br><button type="button" style="height:32px; width:103px" name="button">SUBMIT</button></p> -->
+  <script src="https://cdn.jsdelivr.net/gh/cferdinandi/bouncer@1/dist/bouncer.polyfills.min.js"></script>
+  <script>
+	 var validate = new Bouncer('form');
+  </script>
 </body>
 </html>
 

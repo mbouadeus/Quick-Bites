@@ -8,61 +8,105 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
   </head>
-  <body>
+  <body class="bg-light">
     <div id="login_container" class="bg-light border-bottom">
       <h6 id="login_msg">{{login_msg}}</h6>
-      <a id="login_btn" href="{{login_url}}" class="btn btn-primary">{{login_status}}</a>
+      <a id="login_btn" href="{{login_url}}" class="btn btn-danger">{{login_status}}</a>
     </div>
     <div style="text-align: center; margin-top: 1rem"><img width=50 src="https://i.pinimg.com/originals/42/b5/28/42b5288f0aa1056878f40ac528944772.gif"</img></div>
     <h3 id="demo"></h3>
     <div class="nav">
       <ul id="nav_list" class="rounded-pill">
-        <li><a class="active" href="#">Featured</a></li>
-        <li><a href="/breakfast">Breakfast</a></li>
-        <li><a href="/lunch">Lunch</a></li>
-        <li><a href="/dinner">Dinner</a></li>
+        <li><a {% if page == "featured" %} class="active" {% endif %} href="/">Featured</a></li>
+        <li><a {% if page == "breakfast" %} class="active" {% endif %} href="/breakfast">Breakfast</a></li>
+        <li><a {% if page == "lunch" %} class="active" {% endif %} href="/lunch">Lunch</a></li>
+        <li><a {% if page == "dinner" %} class="active" {% endif %} href="/dinner">Dinner</a></li>
       </ul>
     </div>
-    <div class="px-lg-5 mx-0 main_container">
-      <div class="row mx-lg-n5 scrollspy-example">
-        <div data-spy="scroll" id="res_results" class="col-8 py-3 px-lg-5 border bg-light">
+
+    <div id="container">
+      <div data-spy="scroll" id="res_results" class="col-8 p-3 pr-4 border border-secondary rounded">
+        <div class="list-group">
           {% for restaurant in restaurants %}
-              <p><img src="{{restaurant.icon}}" width=20 /><b> - {{ restaurant.name }} - {{ restaurant.address }} - {{restaurant.rating}}</b></p>
-          {% endfor %}
-        </div>
-        <div id=background class="col-3 py-3 px-lg-5 border bg-light">
-          <form method="POST">
-              <h5>Filters</h5>
-            <label>Price</label>
-            <select name="price_level">
-              <option value="1" {% if price_level == "1" %} selected {% endif %}>$</option>
-              <option value="2" {% if price_level == "2" %} selected {% endif %}>$$</option>
-              <option value="3" {% if price_level == "3" %} selected {% endif %}>$$$</option>
-              <option value="4" {% if price_level == "4" %} selected {% endif %}>$$$$</option>
-            </select> <br>
-
-            <label>Radius</label>
-            <select name="radius">
-              <option value="1" {% if radius == "1" %} selected {% endif %}>1 mile</option>
-              <option value="5" {% if radius == "5" %} selected {% endif %}>5 miles</option>
-              <option value="10" {% if radius == "10" %} selected {% endif %}>10 miles</option>
-            </select><br><br>
-            <input type="hidden" name="lat" value="{{ lat }}" />
-            <input type="hidden" name="lng" value="{{ lng }}" />
-            <input type="submit" value="submit" class="btn btn-primary"/>
+            <form method="POST" action="/restaurant">
+              <input type="hidden" name="restaurant_info" value="{{restaurant.place_id}}~{{restaurant.icon}}~{{restaurant.name}}~{{restaurant.address}}~{{restaurant.rating}}" />
+              <a class="restaurant_item list-group-item list-group-item-action mb-1"><img src="{{restaurant.icon}}" width=20 /><b> - {{ restaurant.name }} - {{ restaurant.address }} - {{restaurant.rating}}</b></a>
             </form>
-          </div>
-
-
+          {% endfor %}
       </div>
-      <!--Filtering System -->
-
-    </div>
-
-
-
+      </div>
+      <div id="filter" class="col-3 p-4 px-lg-5 border border-secondary rounded">
+        <form method="POST" id="filter_cont">
+            <div class="filter_elem">
+          <label>Price</label>
+          <select name="price_level">
+            <option value="5" {% if price_level == "5" %} selected {% endif %}>Any</option>
+            <option value="1" {% if price_level == "1" %} selected {% endif %}>$</option>
+            <option value="2" {% if price_level == "2" %} selected {% endif %}>$$</option>
+            <option value="3" {% if price_level == "3" %} selected {% endif %}>$$$</option>
+            <option value="4" {% if price_level == "4" %} selected {% endif %}>$$$$</option>
+          </select> <br>
+        </div>
+        <div class="filter_elem">
+          <label>Radius</label>
+          <select name="radius">
+            <option value="1" {% if radius == "1" %} selected {% endif %}>1 mile</option>
+            <option value="5" {% if radius == "5" %} selected {% endif %}>5 miles</option>
+            <option value="10" {% if radius == "10" %} selected {% endif %}>10 miles</option>
+          </select><br>
+        </div>
+        <div class="filter_elem">
+          <label>Cuisine</label>
+          <select name="cuisine">
+            <option value="any" {% if cuisine == "any" %} selected {% endif %}>Any</option>
+            <option value="barbeque" {% if cuisine == "barbeque" %} selected {% endif %}>Barbeque</option>
+            <option value="chinese" {% if cuisine == "chinese" %} selected {% endif %}>Chinese</option>
+            <option value="indian" {% if cuisine == "indian" %} selected {% endif %}>Indian</option>
+            <option value="italian" {% if cuisine == "italian" %} selected {% endif %}>Italian</option>
+            <option value="japanese" {% if cuisine == "japanese" %} selected {% endif %}>Japanese</option>
+            <option value="italian" {% if cuisine == "italian" %} selected {% endif %}>Italian</option>
+            <option value="japanese" {% if cuisine == "japanese" %} selected {% endif %}>Japanese</option>
+            <option value="mexican" {% if cuisine == "mexican" %} selected {% endif %}>Mexican</option>
+            <option value="pizza" {% if cuisine == "pizza" %} selected {% endif %}>Pizza</option>
+            <option value="seafood" {% if cuisine == "seafood" %} selected {% endif %}>Seafood</option>
+            <option value="thai" {% if cuisine == "thai" %} selected {% endif %}>Thai</option>
+          </select> <br>
+        </div>
+        <div class="filter_elem">
+          <label>Rating</label>
+          <select name="rating">
+            <option value="6" {% if rating == "6" %} selected {% endif %}>Any</option>
+            <option value="1" {% if rating == "1" %} selected {% endif %}>1 star</option>
+            <option value="2" {% if rating == "2" %} selected {% endif %}>2 star</option>
+            <option value="3" {% if rating == "3" %} selected {% endif %}>3 star</option>
+            <option value="4" {% if rating == "4" %} selected {% endif %}>4 star</option>
+            <option value="5" {% if rating == "5" %} selected {% endif %}>5 star</option>
+          </select> <br>
+        </div>
+        <div class="filter_elem">
+          <label>Hours</label>
+          <select name="hours">
+            <option value="now" {% if hours == "now" %} selected {% endif %}>Open Now</option>
+            <option value="always" {% if hours == "always" %} selected {% endif %}>Open 24</option>
+            <option value="monday" {% if hours == "monday" %} selected {% endif %}>Monday</option>
+            <option value="tuesday" {% if hours == "tuesday" %} selected {% endif %}>Tuesday</option>
+            <option value="wednesday" {% if hours == "wednesday" %} selected {% endif %}>wednesday</option>
+            <option value="thursday" {% if hours == "thursday" %} selected {% endif %}>Thurday</option>
+            <option value="friday" {% if hours == "friday" %} selected {% endif %}>Friday</option>
+            <option value="saturday" {% if hours == "saturday" %} selected {% endif %}>Saturday</option>
+            <option value="sunday" {% if hours == "sunday" %} selected {% endif %}>Sunday</option>
+          </select> <br>
+        </div>
+          <input type="hidden" name="lat" value="{{ lat }}" />
+          <input type="hidden" name="lng" value="{{ lng }}" />
+          <input type="submit" value="submit" id="submit_btn" class="btn btn-danger"/>
+          </form>
+        </div>
+      </div>
 
     <img style="margin-left: 2rem" width=70 src="https://media.tenor.com/images/8e18b45cd2b1ca0ecfb30ad6f286ecdc/tenor.gif"</img>
+    <script src="../js/main.js"></script>
   </body>
 </html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Quick Bites | {{name}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../styles/restaurant.css" />
+  </head>
+  <body class="bg-white">
+    <div id="header" class="map-responsive mt-5">
+      <iframe
+         frameborder="0" style="border:0"
+         src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBK7QF_rpObxmuuru1jM-_CLvwchD8GAww&q={{address}}" allowfullscreen class="rounded-top">
+        </iframe>
+      <div id="restaurant_details" class="bg-light"><h3>{{name}}</h3></div>
+    </div>
+
+    <h1>Name: {{name}}</h1>
+    <h3>Icon</h3>
+    <img src="{{icon}}" />
+    <h3>Address: {{address}}</h3>
+    <h3>Rating: {{rating}}</h3>
+    <h4>Place id: {{id}}</h4>
+
+    <form method="POST" action="/review">
+      <textarea name="review_message" rows="8" cols="80"></textarea>
+      <select name="review_rating">
+        <option value="1">&starf;</option>
+        <option value="2">&starf;&starf;</option>
+        <option value="3">&starf;&starf;&starf;</option>
+        <option value="4">&starf;&starf;&starf;&starf;</option>
+        <option value="5">&starf;&starf;&starf;&starf;&starf;</option>
+      </select>
+      <input type="hidden" value="{{name}}" name="name" />
+      <input type="hidden" value="{{icon}}" name="icon" />
+      <input type="hidden" value="{{address}}" name="address" />
+      <input type="hidden" value="{{id}}" name="id" />
+      <input type="hidden" value="{{user}}" name="user" />
+      <input type="submit" value="submit" />
+    </form>
+
+    {% if comments %}
+    <ul class="list-unstyled">
+
+      {% for i in range(amount_comments) %}
+      <li class="media">
+        <img src="..." class="mr-3" alt="...">
+        <div class="media-body">
+          <h5 class="mt-0 mb-1">Name: {{comments.comments_reviewer[i]}}</h5>
+          <h5 class="mt-0 mb-1">Time: {{comments.comments_time[i]}}</h5>
+          <h5 class="mt-0 mb-1">Rating: {{comments.comments_rating[i]}}</h5>
+          {{comments.comments_message[i]}}
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <!-- <div style="position:relative;padding-top:56.25%;">
+    <iframe
+  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBK7QF_rpObxmuuru1jM-_CLvwchD8GAww
+    &q=Space+Needle,Seattle+WA" allowfullscreen>
+</iframe>
+</div> -->
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- <script src="../js/restaurant.js"></script> -->
+  </body>
+</html>

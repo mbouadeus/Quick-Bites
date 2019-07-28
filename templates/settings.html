@@ -2,7 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="/styles/settings.css" />
+    <link rel="stylesheet" href="../styles/settings.css" />
     <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet">
 
     <title>Setting</title>
@@ -10,44 +10,48 @@
   <body>
     <div id="login_container" class="bg-light border-bottom">
       <h6 id="login_msg">{{login_msg}}</h6>
-      <a id="login_btn" href="{{login_url}}" class="btn btn-primary">{{login_status}}</a>
+      <a id="login_btn" href="{{login_url}}" class="btn btn-danger">{{login_status}}</a>
     </div>
 
 
     <!-- Home button design -->
     <div id = "homeButton">
-      <button type = "button" class = "btn mt-3 btn-secondary">Home</button>
-  </div>
-
-
-  <!-- Username Button -->
-
-    <div>
-      <!-- <button id = "Username">Change Username</button> -->
-      <button id = "Username" type="button" class="btn btn-outline-primary">Change Username</button>
-    </div>
-
-    <!-- Other button -->
-
-    <div>
-      <button id = "Placeholder" type="button" class="btn btn-outline-warning">Placeholder</button>
-    </div>
-
-    <div>
-      <!-- <button id = "editPreferences">Edit Preferences</button> -->
-      <button id = "editPreferences" type="button" class="btn btn-outline-danger">Edit Preferences</button>
+      <button type = "button" class = "btn mt-3 btn-danger" onclick="location.href = '/';">Home</button>
     </div>
 
     <!-- user name banner -->
-    <h2 id = "userBanner">Hello, {{firstName}}</h2>
+    <div id="user_banner" class="mt-5">
+      <img id = "user_pic" src = "{{profile_pic}}"></img>
 
-    <img id = "img" src = "https://mhcd.org/wp-content/uploads/2017/12/placeholder-woman.png"></img>
-
-
-
-
-
-
-
+      <h2 id = "user_msg">Hello, {{first_name}}</h2>
+    </div>
+    <form method="POST" action="/updateprofile" id="user_profile_form" class="bg-light mt-5 p-5 rounded">
+      <h3>User Profile</h3>
+      <div class="input-group my-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">First Name</span>
+      </div>
+        <input type="text" name="first_name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{first_name}}">
+      </div>
+      <div class="input-group my-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Last Name</span>
+      </div>
+        <input type="text" name="last_name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{user.name.split(' ')[1]}}">
+      </div>
+      <div class="input-group my-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Email</span>
+      </div>
+        <input type="email" name="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{user.email}}">
+      </div>
+      <div class="input-group my-4">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Password</span>
+      </div>
+        <input type="password" name="passw" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" value="{{user.passw}}">
+      </div>
+      <input type="submit" value="Save Profile" class="btn btn-danger form_btn mt-3"/>
+    </form>
   </body>
 </html>
