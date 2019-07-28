@@ -292,9 +292,13 @@ class SetLocationHandler(webapp2.RequestHandler):
 
 class LoginHandler(webapp2.RequestHandler):
     def get(self):
-    
-        login_template = jinja_env.get_template('templates/login.html')
-        self.response.write(login_template.render())
+        email = self.request.cookies.get('email')
+
+        if email and email != 'empty':
+            self.redirect('/')
+        else:
+            login_template = jinja_env.get_template('templates/login.html')
+            self.response.write(login_template.render())
 
     def post(self):
         user_email = self.request.get('email')
@@ -349,15 +353,20 @@ class LogoutHandler(webapp2.RequestHandler):
 
 class SignUpHandler(webapp2.RequestHandler):
     def get(self):
-        user = users.get_current_user() # Get user if logged in
+        email = self.request.cookies.get('email')
 
-        if user:
-            template_vars = {
-                'email': user.nickname() + '@gmail.com',
-            }
+        if email and email != 'empty':
+            self.redirect('/')
+        else:
+            user = users.get_current_user() # Get user if logged in
 
-        signup_template = jinja_env.get_template('templates/signup.html')
-        self.response.write(signup_template.render())
+            if user:
+                template_vars = {
+                    'email': user.nickname() + '@gmail.com',
+                }
+
+            signup_template = jinja_env.get_template('templates/signup.html')
+            self.response.write(signup_template.render())
 
     def post(self):
         name = self.request.get('first_name').replace(' ', '') + " " + self.request.get('last_name').replace(' ', '')
