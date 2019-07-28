@@ -1,10 +1,22 @@
 
+body{
+  margin: 0;
+  padding: 0;
+  background: url(https://g.foolcdn.com/image/?url=https%3A%2F%2Fg.foolcdn.com%2Feditorial%2Fimages%2F470276%2Fgettyimages-653387690.jpg&w=700&op=resize);
+  background-size: cover;
+}
+
+
+
+
 .wrapper {
   margin: 0 auto;
   width: 1000px;
-  height: 1500px;
-  background: #eee;
+  height: 1100px;
+  background:#FCD8AB;
   padding: 1rem;
+  box-shadow: 5px 10px 10px black;
+  border-radius: 50px;
 }
 
 
@@ -19,9 +31,8 @@
   position: absolute;
   top: 28vh;
   left: 29vw;
-  color: red;
-  text-shadow: 10px 10px 5px blue;
-  text-shadow:
+  color: black;
+  text-shadow: 6px 7px 6px #FC666B;
 }
 
 
@@ -29,6 +40,7 @@
   position: absolute;
   top: 40vh;
   left: 29vw;
+  text-shadow: 6px 7px 6px #FC666B;
 }
 
 
@@ -37,6 +49,7 @@
   position: absolute;
   top: 52vh;
   left: 29vw;
+  text-shadow: 6px 7px 6px #FC666B;
 }
 
 
@@ -45,6 +58,7 @@
   position: absolute;
   top: 65vh;
   left: 29vw;
+  text-shadow: 6px 7px 6px #FC666B;
 }
 
 
@@ -52,6 +66,7 @@
   position: absolute;
   top: 78vh;
   left: 29vw;
+  text-shadow: 6px 7px 6px #FC666B;
 }
 
 
@@ -59,49 +74,21 @@
   position: absolute;
   top: 92vh;
   left: 29vw;
+  text-shadow: 6px 7px 6px #FC666B;
 }
 
-/* container {
-  margin-left:
-} */
+.options {
+  background-color: white;
+  outline-color: red;
+  border-color: red;
+}
 
 
 #submitButton {
   position: absolute;
-  top: 160vh;
+  top: 110vh;
   left: 29vw;
   font-size: 24px;
   border-radius: 15px;
+  border-color: orange
 }
-
-
-
-
-
-
-
-
-.md-avatar {
-  vertical-align: middle;
-  width: 10vw;
-  height: 20vh;
-  position: relative;
-  top: 90vh;
-  right: 7vw;
-}
-/* .md-avatar.size-1 {
-  width: 40px;
-  height: 40px;
-}
-.md-avatar.size-2 {
-  width: 70px;
-  height: 70px;
-}
-.md-avatar.size-3 {
-  width: 90px;
-  height: 90px;
-}
-.md-avatar.size-4 {
-  width: 110px;
-  height: 110px;
-} */
