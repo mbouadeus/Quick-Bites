@@ -1,77 +1,94 @@
-/* #container {
-  display
-  position: absolute;
-  width: 80vw;
-  margin-left: 10vw;
-  border: 5vw;
-} */
-border{
-  color: red;
+
+body{
+  margin: 0;
+  padding: 0;
+  background: url(https://g.foolcdn.com/image/?url=https%3A%2F%2Fg.foolcdn.com%2Feditorial%2Fimages%2F470276%2Fgettyimages-653387690.jpg&w=700&op=resize);
+  background-size: cover;
 }
+
+
 
 
 .wrapper {
-  width: 960px;
-  margin: 0 auto 0 auto;
+  margin: 0 auto;
+  width: 1000px;
+  height: 1100px;
+  background:#FCD8AB;
+  padding: 1rem;
+  box-shadow: 5px 10px 10px black;
+  border-radius: 50px;
 }
 
+
+#preferences {
+  position: relative;
+  left: 8vw;
+  font-size: 15vh;
+}
 
 
 #firstOption {
   position: absolute;
-  top: 3vh;
-  left: 3vw;
-  color: red;
-  text-shadow: 10px 10px 5px blue;
-  text-shadow:
+  top: 28vh;
+  left: 29vw;
+  color: black;
+
 }
 
 
 #secondOption {
   position: absolute;
-  top: 20vh;
-  left: 3vw;
+  top: 40vh;
+  left: 29vw;
+
 }
 
 
 
 #thirdOption {
   position: absolute;
-  top: 36vh;
-  left: 3vw;
+  top: 52vh;
+  left: 29vw;
+
 }
 
 
 
 #fourthOption {
   position: absolute;
-  top: 52vh;
-  left: 3vw;
+  top: 65vh;
+  left: 29vw;
+  
 }
 
 
 #fifthOption {
   position: absolute;
-  top: 65vh;
-  left: 3vw;
+  top: 78vh;
+  left: 29vw;
+
 }
 
 
 #sixthOption {
   position: absolute;
-  top: 79vh;
-  left: 3vw;
+  top: 92vh;
+  left: 29vw;
+
 }
 
-/* container {
-  margin-left:
-} */
+.options {
+  background-color: white;
+  outline-color: red;
+  border-color: red;
+}
 
 
 #submitButton {
   position: absolute;
-  top: 92vh;
-  left: 3vw;
+  top: 110vh;
+  left: 29vw;
   font-size: 24px;
   border-radius: 15px;
+  border-color: orange
 }
