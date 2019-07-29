@@ -35,7 +35,7 @@
           {% for restaurant in restaurants %}
             <form method="POST" action="/restaurant">
               <input type="hidden" name="restaurant_info" value="{{restaurant.place_id}}~{{restaurant.icon}}~{{restaurant.name}}~{{restaurant.address}}~{{restaurant.rating}}" />
-              <a class="restaurant_item list-group-item list-group-item-action mb-1"><img src="{{restaurant.icon}}" width=20 /><b> - {{ restaurant.name }} - {{ restaurant.address }} -
+              <a class="restaurant_item list-group-item list-group-item-action mb-1"><img src="{{restaurant.icon}}" width=20 /><b> - {{ restaurant.name }} ( {{ restaurant.address }} )   
                 <span style="color: gold">
                 {% if restaurant.rating <= 1 %}
                   &starf;
