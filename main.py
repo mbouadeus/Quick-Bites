@@ -7,6 +7,7 @@ from py import restaurant, login
 import datetime #being used
 import time #being used
 from google.appengine.ext import ndb
+import random
 
 class User(ndb.Model):
   name = ndb.StringProperty()
@@ -24,8 +25,9 @@ class Restaurant(ndb.Model):
     restaurant_id = ndb.StringProperty()
     comments_reviewer = ndb.StringProperty(repeated=True)
     comments_rating = ndb.StringProperty(repeated=True)
-    comments_time = ndb.DateTimeProperty(repeated=True)
+    comments_time = ndb.DateProperty(repeated=True)
     comments_message = ndb.StringProperty(repeated=True)
+    comments_icon = ndb.IntegerProperty(repeated=True)
 
 class ProfileImages(ndb.Model):
     image_id = ndb.IntegerProperty()
@@ -203,7 +205,11 @@ class RestaurantHandler(webapp2.RequestHandler):
             'icon': res_info[1],
             'name': res_info[2],
             'address': res_info[3],
-            'rating': res_info[4]
+            'rating': res_info[4],
+            'rating_int': int(float(res_info[4])),
+            'login_msg': login.get_login_msg(email, get_user_query),
+            'login_url': login.get_login_url(email),
+            'login_status': login.get_login_status(email),
         }
 
         user = get_user_query(email)
@@ -212,9 +218,25 @@ class RestaurantHandler(webapp2.RequestHandler):
 
         res_comments = Restaurant.query().filter(Restaurant.restaurant_id==res_info[0]).fetch()
 
+        icons = []
+
+
+
+        # Matching icon id for url
+        if res_comments:
+            for id in res_comments[0].comments_icon:
+                icons.append(ProfileImages.query().filter(ProfileImages.image_id==id).fetch()[0].url)
+
+            template_vars['icons'] = icons
+
+        # Getting comment info for restaurant
         if res_comments:
             template_vars['comments'] = res_comments[0]
+            
             template_vars['amount_comments'] = len(res_comments[0].comments_message)
+
+        if email and email != "empty":
+            template_vars['show_comments'] = True
 
         self.response.write(jinja_env.get_template('templates/restaurant.html').render(template_vars))
 
@@ -224,12 +246,15 @@ class ReviewHandler(webapp2.RequestHandler):
     def post(self):
         id = self.request.get('id')
         user = self.request.get('user')
-        print(user)
         name = self.request.get('name')
-        print(name)
+
         message = self.request.get('review_message')
         rating = self.request.get('review_rating')
-        date = datetime.datetime.now()
+        date = datetime.datetime.today()
+
+        email = self.request.cookies.get('email')
+        icon = get_user_query(email).icon
+
 
         res = get_res_reviews_query(id)
 
@@ -238,11 +263,13 @@ class ReviewHandler(webapp2.RequestHandler):
             res.comments_rating.append(rating)
             res.comments_time.append(date)
             res.comments_message.append(message)
+            res.comments_icon.append(icon)
             res.put()
         else: #create restaurant
-            Restaurant(restaurant_id=id, comments_reviewer=[name], comments_rating=[rating], comments_time=[date], comments_message=[message]).put()
+            Restaurant(restaurant_id=id, comments_reviewer=[user], comments_rating=[rating], comments_time=[date], comments_message=[message], comments_icon=[icon]).put()
             print('restaurant review created')
 
+        time.sleep(1)
         #redirect to same page
         self.response.write(jinja_env.get_template('templates/reviewredirect.html').render({
             'place_id': id,
@@ -252,10 +279,6 @@ class ReviewHandler(webapp2.RequestHandler):
             'rating': rating
         }))
 
-
-class SignUpHandler(webapp2.RequestHandler):
-    def get(self):
-        self.response.write(jinja_env.get_template('templates/signUp.html').render())
 
 class SettingsHandler(webapp2.RequestHandler):
     def get(self):
@@ -359,32 +382,48 @@ class SignUpHandler(webapp2.RequestHandler):
             self.redirect('/')
         else:
             user = users.get_current_user() # Get user if logged in
+            template_vars = {}
 
             if user:
-                template_vars = {
-                    'email': user.nickname() + '@gmail.com',
-                }
+                template_vars['email'] = user.nickname()
 
             signup_template = jinja_env.get_template('templates/signup.html')
-            self.response.write(signup_template.render())
+            self.response.write(signup_template.render(template_vars))
 
     def post(self):
-        name = self.request.get('first_name').replace(' ', '') + " " + self.request.get('last_name').replace(' ', '')
 
         email = self.request.get('email')
-        passw = self.request.get('passw1')
+        user = get_user_query(email)
 
-        user = User(name=name, email=email, passw=passw, icon=1)
-        user.put()
+        if not user:
+            name = self.request.get('first_name').replace(' ', '') + " " + self.request.get('last_name').replace(' ', '')
 
-        UserPreference(email=user.email, is_set=False).put() # Create UserPreference for user
+            passw = self.request.get('passw1')
 
-        pref_template = jinja_env.get_template('templates/preferences.html')
-        self.response.write(pref_template.render({
-            'email': user.email
-        }))
+            user = User(name=name, email=email, passw=passw, icon=random.randint(0,2))
+            user.put()
+
+            # UserPreference(email=user.email, is_set=False).put() # Create UserPreference for user
+            #
+            # pref_template = jinja_env.get_template('templates/preferences.html')
+            # self.response.write(pref_template.render({
+            #     'email': user.email
+            # }))
+
+            self.response.headers.add_header('Set-Cookie','email=' + str(email)) #Setting email in cookie
+
+            self.redirect('/')
+        else:
+            pref_template = jinja_env.get_template('templates/signup.html')
+            self.response.write(pref_template.render({
+                'form_invalid': True
+            }))
 
 class PreferencesHandler(webapp2.RequestHandler):
+    def get(self):
+        # self.redirect('/signup')
+        self.response.write(jinja_env.get_template('templates/preferences.html').render())
+
     def post(self):
         email = str(self.request.get('email'))
 
@@ -418,7 +457,7 @@ class UpdateProfileHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/homepage', HomePageHandler),
+    ('/home', HomePageHandler),
     ('/breakfast', BreakfastHandler),
     ('/lunch', LunchHanlder),
     ('/dinner', DinnerHandler),

@@ -148,6 +148,11 @@ h2 {
   text-align: center;
 }
 
+#alert {
+  width: 90%;
+  max-width: 550px;
+}
+
 
 /* TABS */
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bun-Buns</title>
+    <title>Quick Bites</title>
     <link rel="stylesheet" href="../styles/normalize.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="../styles/styles.css" />
@@ -11,11 +11,14 @@
 
   </head>
   <body class="bg-light">
+    {% if login_msg != 'Welcome, Guest'%}
+      <a id="settings" href="/settings" class="btn btn-danger float-left ml-2">Settings</a>
+    {% endif %}
     <div id="login_container" class="bg-light border-bottom">
       <h6 id="login_msg">{{login_msg}}</h6>
       <a id="login_btn" href="{{login_url}}" class="btn btn-danger">{{login_status}}</a>
     </div>
-    <div style="text-align: center; margin-top: 1rem"><img width=50 src="https://i.pinimg.com/originals/42/b5/28/42b5288f0aa1056878f40ac528944772.gif"</img></div>
+    <div style="text-align: center; margin-top: 1rem"><img width=100 src="../img/quickbites.png"</img></div>
     <h3 id="demo"></h3>
     <div class="nav">
       <ul id="nav_list" class="rounded-pill">
@@ -32,7 +35,21 @@
           {% for restaurant in restaurants %}
             <form method="POST" action="/restaurant">
               <input type="hidden" name="restaurant_info" value="{{restaurant.place_id}}~{{restaurant.icon}}~{{restaurant.name}}~{{restaurant.address}}~{{restaurant.rating}}" />
-              <a class="restaurant_item list-group-item list-group-item-action mb-1"><img src="{{restaurant.icon}}" width=20 /><b> - {{ restaurant.name }} - {{ restaurant.address }} - {{restaurant.rating}}</b></a>
+              <a class="restaurant_item list-group-item list-group-item-action mb-1"><img src="{{restaurant.icon}}" width=20 /><b> - {{ restaurant.name }} - {{ restaurant.address }} -
+                <span style="color: gold">
+                {% if restaurant.rating <= 1 %}
+                  &starf;
+                {% elif restaurant.rating <= 2 %}
+                  &starf;&starf;
+                {% elif restaurant.rating <= 3 %}
+                  &starf;&starf;&starf;
+                {% elif restaurant.rating <= 4 %}
+                  &starf;&starf;&starf;&starf;
+                {% elif restaurant.rating <= 5 %}
+                  &starf;&starf;&starf;&starf;&starf;
+                {% endif %}
+              </span>
+              </b></a>
             </form>
           {% endfor %}
       </div>
